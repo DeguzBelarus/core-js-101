@@ -646,8 +646,18 @@ function selectMany(arr, childrenSelector) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  const searchIndex = indexes;
+  const currentArr = arr;
+  return searchIndex.map((element) => {
+    if (searchIndex.length === 1) {
+      if (Array.isArray(currentArr)) {
+        return currentArr[element];
+      }
+      return currentArr;
+    }
+    return getElementByIndexes(currentArr[searchIndex[0]], searchIndex.slice(1));
+  }, [])[0];
 }
 
 
@@ -669,8 +679,20 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  let resultArr;
+  if (arr.length % 2 === 0) {
+    const firstHalf = arr.slice(0, arr.length / 2);
+    const secondHalf = arr.slice(arr.length / 2, arr.length);
+    resultArr = [...secondHalf, ...firstHalf];
+  } else {
+    const firstHalf = arr.slice(0, arr.length / 2);
+    const secondHalf = arr.slice(arr.length / 2 + 1, arr.length);
+    const middle = arr[Math.floor(arr.length / 2)];
+    resultArr = [...secondHalf, middle, ...firstHalf];
+  }
+
+  return resultArr;
 }
 
 
